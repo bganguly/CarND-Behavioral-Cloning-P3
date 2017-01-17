@@ -26,7 +26,7 @@ get_ipython().magic('matplotlib inline')
 # Set some global variables for storing path to img_data and the driving_log
 
 data_folder = './data/'
-log_path = data_folder +'driving_log.csv'
+path_to_log = data_folder +'driving_log.csv'
 
 
 # In[3]:
@@ -35,19 +35,21 @@ log_path = data_folder +'driving_log.csv'
 # Print some summary statistics and any random line for some context
 
 logs = []
-with open(log_path,'rt') as f:
-    reader = csv.reader(f)
+with open(path_to_log,'rt') as logFile:
+    reader = csv.reader(logFile)
     for line in reader:
         logs.append(line)
 
-log_labels = logs.pop(0)
+log_headers = logs[0]
+# remove the header from the logs array as we don't require it subsequently
+logs.pop(0)
 totalLinesFromLog = len(logs) 
 # store a random entry for sample printing
 randomLineFromLog = randint(0, totalLinesFromLog)
 
-print(' log headers :', log_labels)
+print(' log headers :', log_headers)
 print(' total number of log lines :', totalLinesFromLog)
-print(' log line # selected at random :',randomLineFromLog)
+print(' log line selected at random :',randomLineFromLog)
 print(' sample log line :',logs[randomLineFromLog])
 
 
@@ -60,27 +62,27 @@ HTML('<style>div.output_subarea.output_png { margin-top: -17px;}</style>')
 
 # In[5]:
 
+def showImage(img):
+    plt.imshow(img)
+    plt.show()
+    
 # Print a sample image and demonastrate rescaling
 
-img = plt.imread(data_folder + (logs[randomLineFromLog][0]))
+img = plt.imread(data_folder + logs[randomLineFromLog][0])
 print(' sample image from input data, ', 'image shape :',img.shape)
-plt.imshow(img)
-plt.show()
+showImage(img)
 
 img_trimmed = img[20:140]
 print(' sample image trimmed, ', 'image shape :',img_trimmed.shape)
-plt.imshow(img_trimmed)
-plt.show()
+showImage(img_trimmed)
 
 img_resized = cv2.resize(img,(32,16))
 print(' sample image from input data rescaled, ', 'image shape :',img_resized.shape)
-plt.imshow(img_resized)
-plt.show()
+showImage(img_resized)
 
 img_trimmed_rescaled = cv2.resize(img_trimmed,(32,16))
 print(' sample image trimmed and then rescaled ', 'image shape :',img_trimmed_rescaled.shape)
-plt.imshow(img_trimmed_rescaled)
-plt.show()
+showImage(img_trimmed_rescaled)
 
 
 # In[6]:
@@ -95,31 +97,28 @@ def image_resize(img):
 
 # Helper function to normalise input data
 # Load features 
-#   get input images from all three cameras vantages
-#   resize each image using helper function above
+#   Get input images from all three cameras vantages
+#   Resize each image using helper function above
+#   Note that while the log has entries like 
+#   ' IMG/center_2016_12_01_13_39_55_956.jpg' with leading spaces, the provided
+#   data is actually in the data/IMG/center_2016_12_01_13_39_55_956.jpg location
 # Load labels
-#   get steerting angles from all three camera vantages
-#   for the left camera add a small delta to the steering angle
-#   for the right camera subtract a small delta from the steering angle
-
-def load_data(X,y,data_folder,delta=0.08):
+#   Get steerting angles from all three camera vantages
+#   For the left camera add a small delta to the steering angle
+#   For the right camera subtract a small delta from the steering angle
+        
+def load_resized_data(X,y,data_folder,delta=0.1):
     for i in range(len(logs)):
-        img_path = logs[i][0]
-        img_path = data_folder+'IMG'+(img_path.split('IMG')[1]).strip()
-        img = plt.imread(img_path)
-        X.append(image_resize(img))
+        center_img_path = data_folder+logs[i][0]
+        X.append(image_resize(plt.imread(center_img_path)))
         y.append(float(logs[i][3]))
         
-        img_path = logs[i][1]
-        img_path = data_folder+'IMG'+(img_path.split('IMG')[1]).strip()
-        img = plt.imread(img_path)
-        X.append(image_resize(img))
+        left_img_path = data_folder+logs[i][1].strip()
+        X.append(image_resize(plt.imread(left_img_path)))
         y.append(float(logs[i][3]) + delta)
         
-        img_path = logs[i][2]
-        img_path = data_folder+'IMG'+(img_path.split('IMG')[1]).strip()
-        img = plt.imread(img_path)
-        X.append(image_resize(img))
+        right_img_path = data_folder+logs[i][2].strip()
+        X.append(image_resize(plt.imread(right_img_path)))
         y.append(float(logs[i][3]) - delta)
 
 
@@ -131,7 +130,7 @@ def load_data(X,y,data_folder,delta=0.08):
 data={}
 data['features'] = []
 data['labels'] = []
-load_data(data['features'], data['labels'],data_folder,0.3)
+load_resized_data(data['features'], data['labels'],data_folder,0.3)
 
 
 # In[9]:
@@ -156,8 +155,6 @@ y_train = np.append(y_train,-y_train,axis=0)
 
 X_train, y_train = shuffle(X_train, y_train)
 X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, random_state=0, test_size=0.1)
-print(X_train.shape)
-print(X_val.shape)
 
 
 # In[12]:
@@ -177,7 +174,7 @@ X_val = X_val.reshape(X_val.shape[0], img_rows, img_cols, 1)
 # at least keras 1.2.0 , upon a model save/restore
 
 def normalize_greyscale(image_data):
-    return  image_data/127.5 -1.
+    return  (image_data/((0+255)/2)) -1
 
 model = Sequential()
 model.add(Lambda(normalize_greyscale ,input_shape=(16,32,1)))
@@ -188,22 +185,23 @@ model.add(Flatten())
 model.add(Dense(1))
 
 
-# In[15]:
+# In[14]:
 
 # Main training runs for the Keras model
+# This takes about 3 minutes on an AWS GPU
 
 model.compile(loss='mse',optimizer='adam')
 history = model.fit(X_train, y_train,batch_size=128, nb_epoch=20,verbose=1, validation_data=(X_val, y_val))
 
 
-# In[16]:
+# In[15]:
 
 # Print Model predictions
 
-model.predict(X_train[0:10])
+model.predict(X_train[0:5])
 
 
-# In[17]:
+# In[16]:
 
 # Save model (as json) and weights to disk
 
