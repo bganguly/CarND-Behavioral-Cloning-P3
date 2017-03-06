@@ -76,7 +76,13 @@ For details about how I created the training data, see the next section.
 
 ###Architecture and Training Documentation
 
-####1. Thoroughly discusses the approach taken for deriving and designing a model architecture fit for solving the given problem.
+####1. Thoroughly discuss the approach taken for deriving and designing a model architecture fit for solving the given problem.
+
+Although you've properly explained the purposes, prerequisites, and how the files are organized in the project, please take into account that a discussion explaining the approach you've taken from your initial idea/initial model until reaching/choosing your final design, is also required. For example:
+
+how were your initial models and their results?
+based on the previous model results what was your next decision/model to test? does it improve the results?
+iterate over these steps adding the stages you've overcame until reaching the final and acceptable design.
 
 The overall strategy for deriving a model architecture was to ...
 
@@ -94,6 +100,10 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 
 ####2. Provide sufficient details of the characteristics and qualities of the architecture, such as the type of model used, the number of layers, the size of each layer. Visualizations emphasizing particular qualities of the architecture are encouraged.
 
+Please include your model description, explaining the characteristics and qualities of the chosen architecture (model, number of layers, size of layers). Including some visualizations of the used architecture to emphasize its qualities is also very recommended. If you want to automatically generate a visualization of your model using Keras, here you can find how to do it:
+
+https://keras.io/visualization/#model-visualization
+
 The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
 
 Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
@@ -102,6 +112,7 @@ Here is a visualization of the architecture (note: visualizing the architecture 
 
 ####3. Describe how the model was trained and what the characteristics of the dataset are. Information such as how the dataset was generated and examples of images from the dataset should be included.
 
+Please include an explanation on how was your model's training process, e.g. how was the dataset generated, augmented or preprocessed, the number of epochs you've used in the training (include all the information that you consider important related to the training). Please consider also including some example images of the recorded dataset in the README file.
 
 To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
 
