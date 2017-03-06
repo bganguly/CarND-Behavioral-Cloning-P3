@@ -71,13 +71,7 @@ For details about how I created the training data, see the next section.
 
 ###Architecture and Training Documentation
 
-####1. Thoroughly discuss the approach taken for deriving and designing a model architecture fit for solving the given problem.
-
-Although you've properly explained the purposes, prerequisites, and how the files are organized in the project, please take into account that a discussion explaining the approach you've taken from your initial idea/initial model until reaching/choosing your final design, is also required. For example:
-
-how were your initial models and their results?  
-based on the previous model results what was your next decision/model to test? does it improve the results?  
-iterate over these steps adding the stages you've overcame until reaching the final and acceptable design.  
+####1. Thoroughly discuss the approach taken for deriving and designing a model architecture fit for solving the given problem.  
 
 The overall strategy for deriving a model architecture was to start with a Conv layer and add in dropout and flatten as needed.
 
@@ -97,8 +91,8 @@ Here is a visualization of the architecture (note: visualizing the architecture 
 
 Please include an explanation on how was your model's training process, e.g. how was the dataset generated, augmented or preprocessed, the number of epochs you've used in the training (include all the information that you consider important related to the training). Please consider also including some example images of the recorded dataset in the README file.
 
-After the collection process, I had X number of data points. I then preprocessed this data by ...
+I started off by using Udacity's provided raw dataset , as i had trouble using the simulator to keep the car on the track using the keyboard alone. Some sample images are as follows.
 
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
+I finally randomly shuffled the data set and put 10% of the data into a validation set. 
 
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
