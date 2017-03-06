@@ -101,8 +101,8 @@ I started off by using Udacity's provided raw dataset , as i had trouble using t
 ![alt text][image4]
 ![alt text][image5]
 
-
-
+The images were both trimmed (take out the upper half or so, as that should not contribute to the ability to predict the steering angle, and scaled, as we want the classifer to be able to work off of 'rougher' images.
+The features were obtained by adding a small delta to the left camera and subtracting a small delta from the right camera.
 I finally randomly shuffled the data set and put 10% of the data into a validation set. 
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. I found an epoch of 20 wieth a batch_size of 128 to be adequate, after several iterations. I used an adam optimizer so that manually training the learning rate wasn't necessary.
