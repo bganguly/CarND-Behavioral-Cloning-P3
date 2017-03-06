@@ -18,13 +18,8 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/placeholder.png "Model Visualization"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+[image1]: ./output_for_writeup/model.png "Model Visualization"
+
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -80,31 +75,19 @@ For details about how I created the training data, see the next section.
 
 Although you've properly explained the purposes, prerequisites, and how the files are organized in the project, please take into account that a discussion explaining the approach you've taken from your initial idea/initial model until reaching/choosing your final design, is also required. For example:
 
-how were your initial models and their results?
-based on the previous model results what was your next decision/model to test? does it improve the results?
-iterate over these steps adding the stages you've overcame until reaching the final and acceptable design.
+how were your initial models and their results?  
+based on the previous model results what was your next decision/model to test? does it improve the results?  
+iterate over these steps adding the stages you've overcame until reaching the final and acceptable design.  
 
-The overall strategy for deriving a model architecture was to ...
+The overall strategy for deriving a model architecture was to start with a Conv layer and add in dropout and flatten as needed.
 
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
-
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
-
-To combat the overfitting, I modified the model so that ...
-
-Then I ... 
-
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
+In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. With the basic approach above the losses from model.fit() weren't narrowing down quickly enough with reasonable epochs. I then added in the MaxPooling and ran the simulation with fairly poor results. Based on some discussions on the slack channels i decided to addin the Droput layer, but the parameter to that still needed some tweaking over several iterations. 
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
 ####2. Provide sufficient details of the characteristics and qualities of the architecture, such as the type of model used, the number of layers, the size of each layer. Visualizations emphasizing particular qualities of the architecture are encouraged.
 
-Please include your model description, explaining the characteristics and qualities of the chosen architecture (model, number of layers, size of layers). Including some visualizations of the used architecture to emphasize its qualities is also very recommended. If you want to automatically generate a visualization of your model using Keras, here you can find how to do it:
-
-https://keras.io/visualization/#model-visualization
-
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
+I choose to use the Keras Sequential Model as that seemed more declarative and easier to use than the Functional API construct.
 
 Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
 
@@ -114,27 +97,7 @@ Here is a visualization of the architecture (note: visualizing the architecture 
 
 Please include an explanation on how was your model's training process, e.g. how was the dataset generated, augmented or preprocessed, the number of epochs you've used in the training (include all the information that you consider important related to the training). Please consider also including some example images of the recorded dataset in the README file.
 
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
-
-![alt text][image2]
-
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
-
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
-
-Then I repeated this process on track two in order to get more data points.
-
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
-![alt text][image6]
-![alt text][image7]
-
-Etc ....
-
 After the collection process, I had X number of data points. I then preprocessed this data by ...
-
 
 I finally randomly shuffled the data set and put Y% of the data into a validation set. 
 
