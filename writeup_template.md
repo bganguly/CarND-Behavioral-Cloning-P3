@@ -19,6 +19,10 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./output_for_writeup/model.png "Model Visualization"
+[image2]: ./output_for_writeup/raw_image.png "raw image"
+[image3]: ./output_for_writeup/raw_image_rescaled.png "raw image rescaled"
+[image4]: ./output_for_writeup/raw_image_trimmed.png "raw image trimmed"
+[image5]: ./output_for_writeup/raw_image_trimmed_and_rescaled.png "raw image trimmed and rescaled"
 
 
 ## Rubric Points
@@ -91,7 +95,13 @@ Here is a visualization of the architecture (note: visualizing the architecture 
 
 Please include an explanation on how was your model's training process, e.g. how was the dataset generated, augmented or preprocessed, the number of epochs you've used in the training (include all the information that you consider important related to the training). Please consider also including some example images of the recorded dataset in the README file.
 
-I started off by using Udacity's provided raw dataset , as i had trouble using the simulator to keep the car on the track using the keyboard alone. Some sample images are as follows.
+I started off by using Udacity's provided raw dataset , as i had trouble using the simulator to keep the car on the track using the keyboard alone. Some sample images are as follows.  
+![alt text][image2]
+![alt text][image3]
+![alt text][image4]
+![alt text][image5]
+
+
 
 I finally randomly shuffled the data set and put 10% of the data into a validation set. 
 
