@@ -93,15 +93,24 @@ Here is a visualization of the architecture (note: visualizing the architecture 
 
 ####3. Describe how the model was trained and what the characteristics of the dataset are. Information such as how the dataset was generated and examples of images from the dataset should be included.
 
-I started off by using Udacity's provided raw dataset , as i had trouble using the simulator to keep the car on the track using the keyboard alone. Some sample images are as follows.  
-raw image . 
-![alt text][image2] . 
+I started off by using Udacity's provided raw dataset , as i had trouble using the simulator to keep the car on the track using the keyboard alone. Some sample images are as follows. 
+
+raw image  
+
+![alt text][image2]  
+
 raw image scaled  
-![alt text][image3] . 
-raw image trimmed . 
-![alt text][image4] . 
-raw image trimmed and scaled . 
-![alt text][image5] . 
+
+![alt text][image3]  
+
+raw image trimmed  
+
+![alt text][image4]  
+
+raw image trimmed and scaled  
+
+![alt text][image5] 
+
 
 The images were both trimmed (take out the upper half or so, as that should not contribute to the ability to predict the steering angle, and scaled, as we want the classifer to be able to work off of 'rougher' images.
 The features were obtained by adding a small delta to the left camera and subtracting a small delta from the right camera.
