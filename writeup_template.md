@@ -77,6 +77,15 @@ For details about how I created the training data, see the next section.
 
 ####1. Thoroughly discuss the approach taken for deriving and designing a model architecture fit for solving the given problem.  
 
+ code review comments
+- how were your initial models and their results?
+- based on the previous model results what was your next decision/model to test? does it improve the results?
+- iterate over these steps adding the stages you've overcame until reaching the final and acceptable design.
+Although the model is properly visualized and you explained the model's architecture, please be advised that in order to pass this rubric point more explanation on your model is needed, in particular:
+- why you chose this model size (width and length)
+- why you chose this batch size
+
+
 The overall strategy for deriving a model architecture was to start with a Conv layer and add in dropout and flatten as needed.
 
 In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. With the basic approach above the losses from model.fit() weren't narrowing down quickly enough with reasonable epochs. I then added in the MaxPooling and ran the simulation with fairly poor results. Based on some discussions on the slack channels i decided to addin the Droput layer, but the parameter to that still needed some tweaking over several iterations. 
