@@ -77,16 +77,13 @@ For details about how I created the training data, see the next section.
 
 ####1. Thoroughly discuss the approach taken for deriving and designing a model architecture fit for solving the given problem.  
 
- code review comments
-- how were your initial models and their results?
-- based on the previous model results what was your next decision/model to test? does it improve the results?
-- iterate over these steps adding the stages you've overcame until reaching the final and acceptable design.
-Although the model is properly visualized and you explained the model's architecture, please be advised that in order to pass this rubric point more explanation on your model is needed, in particular:
-- why you chose this model size (width and length)
-- why you chose this batch size
-
-
-The overall strategy for deriving a model architecture was to start with a Conv layer and add in dropout and flatten as needed.
+The overall strategy for deriving a model architecture was to start with a Conv layer and add in dropout and flatten as needed. I did the following procedures iteratively to get to final parameters for my model. While the model.compile() will report the mse losses, those alone aren't enough to get me close to the desired model, and i had to run the simulator repeatedly after every change in model.
+- I started with a very naive model of sequential/conv2d/maxpooling and dense. Naturally that did not work due to mimsatch in params/array sizes.
+- I then added in a flatten and proceeded to train the model and also noted the mse loss. It looked like the mse loss was relatively flat. And upon running the simulator, the results were not encouraging.
+- I then added in the Dropout layer, with a param of 0.75, and noted that the sim behavior was somewhat improved.
+- For the same model, i iterated through batch/epocs of 256/20, 256/40, 128/20 and 128/40, and found that the best trend of the mse loss was for the 128/20 combination. In other cases either the drop was too sudden or had a tendency to fluctuate around a value, leading me to conclude that i was perhaps beginning to overfit. Sim results continued to improve, but the vehicle will still go off into the lake and other large depressions.
+- At about the 0.25 param mark for the dropout, i had a generally stable left track performance.
+- I then proceeded to see if it would also work on the right track, and found that if i increased the throttle to about 0.3 (as i commented out n the drive.py file)
 
 In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. With the basic approach above the losses from model.fit() weren't narrowing down quickly enough with reasonable epochs. I then added in the MaxPooling and ran the simulation with fairly poor results. Based on some discussions on the slack channels i decided to addin the Droput layer, but the parameter to that still needed some tweaking over several iterations. 
 
